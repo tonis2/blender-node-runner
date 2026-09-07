@@ -32,7 +32,13 @@ jobs:
       run: cd extension && ../blender/blender --command extension build
 
     - name: Move zip file
-      run: mkdir build_output && mv extension/node_runner-*.zip build_output
+      run: |
+        mkdir build_output
+        # The archive is named "<id>-<version>.zip" from the manifest, so it
+        # must never be hardcoded here - renaming the extension would break
+        # the release with the build itself reporting success.
+        mv extension/*.zip build_output/
+        ls -l build_output/
 
     - name: Archive Build
       uses: actions/upload-artifact@v4
