@@ -34,5 +34,5 @@ paths = [
 
 [permissions]
 clipboard = "Copy Node Runner Hash to clipboard"
-network = "Download node setups from the library repositories you configure"
-files = "Cache downloaded node setups and publish setups to a folder you pick"
+network = "Download node setups from repositories you configure"
+files = "Cache downloaded setups and write to your library folder"
