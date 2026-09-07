@@ -9,7 +9,7 @@ browses node setups published in git-backed library repositories.
 bl_info = {
     "name": "Node Runner",
     "description": "Import and export nodes as strings",
-    "author": "Noah Thiering <noah.thiering@gmail.com>",
+    "author": "Tonis",
     "version": (1, 5, 0),
     "blender": (4, 5, 0),
     "category": "Node",
