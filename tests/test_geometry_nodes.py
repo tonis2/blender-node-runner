@@ -6,8 +6,6 @@ using the same mock infrastructure as the shader-node tests.
 
 from unittest.mock import MagicMock
 
-from tests.helpers import MockNode, MockNodeTree
-
 from node_runner.serialize import serialize_node_tree
 from node_runner.encoding import (
     encode,
@@ -19,6 +17,8 @@ from node_runner.encoding import (
     encode_xml,
     decode_xml,
 )
+
+from tests.helpers import MockNode, MockNodeTree
 
 
 class TestSerializeGeometryTree:

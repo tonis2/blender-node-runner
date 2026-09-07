@@ -4,8 +4,6 @@ from unittest.mock import MagicMock
 
 from mathutils import Color, Euler, Vector
 
-from tests.helpers import MockNode, MockNodeTree, MockRNAProperty
-
 from node_runner.serialize import (
     serialize_color,
     serialize_vector,
@@ -15,6 +13,8 @@ from node_runner.serialize import (
     serialize_node,
     serialize_node_tree,
 )
+
+from tests.helpers import MockNode, MockNodeTree, MockRNAProperty
 
 
 class TestPrimitiveSerializers:

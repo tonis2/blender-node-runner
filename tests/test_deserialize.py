@@ -2,8 +2,6 @@
 
 from unittest.mock import MagicMock
 
-from tests.helpers import MockNodeTree, MockSocket
-
 from node_runner.deserialize import (
     get_node_socket_base_type,
     get_socket_by_identifier,
@@ -11,6 +9,8 @@ from node_runner.deserialize import (
     _topological_sort_frames,
     deserialize_node_tree,
 )
+
+from tests.helpers import MockNodeTree, MockSocket
 
 
 class TestGetNodeSocketBaseType:
