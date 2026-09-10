@@ -16,33 +16,32 @@ jobs:
       uses: actions/checkout@v4
 
     - name: Install Blender
-      run: | 
-        wget https://download.blender.org/release/Blender4.5/blender-4.5.0-linux-x64.tar.xz -O blender.tar.xz
-        mkdir blender
-        tar -xvf blender.tar.xz -C blender --strip-components=1
-    - name: Move files
       run: |
-        mkdir extension
-        cp blender_manifest.toml extension/
-        # Read the shipped file list from the manifest rather than repeating
-        # it here - a module missing from the zip only fails at enable time.
-        cp $(python3 -c "import tomllib;print(' '.join(tomllib.load(open('blender_manifest.toml','rb'))['build']['paths']))") extension/
-        
-    - name: Build Blender Extension
-      run: cd extension && ../blender/blender --command extension build
+        wget -q https://download.blender.org/release/Blender4.5/blender-4.5.0-linux-x64.tar.xz -O blender.tar.xz
+        mkdir blender
+        tar -xf blender.tar.xz -C blender --strip-components=1
 
-    - name: Move zip file
+    - name: Build Blender Extension
+      # The package contents are the "[build] paths" allowlist in
+      # blender_manifest.toml. Building from the checkout with Blender's own
+      # tool means only those files are archived - tests, docs, lint config,
+      # workflows and caches never make it into the zip.
       run: |
         mkdir build_output
-        # The archive is named "<id>-<version>.zip" from the manifest, so it
-        # must never be hardcoded here - renaming the extension would break
-        # the release with the build itself reporting success.
-        mv extension/*.zip build_output/
+        ./blender/blender --command extension build \
+          --source-dir . \
+          --output-dir build_output \
+          --verbose
         ls -l build_output/
+
+    - name: Verify package contents
+      # Fail the release if the zip contains anything beyond the manifest
+      # allowlist. This is what the extensions platform reviewers check.
+      run: python3 .github/verify_package.py build_output/*.zip
 
     - name: Archive Build
       uses: actions/upload-artifact@v4
-      with: 
+      with:
         name: blender-extension-build
         path: build_output/
 
@@ -53,5 +52,3 @@ jobs:
         bodyFile: "release.md"
         allowUpdates: true
         omitBodyDuringUpdate: true
-
-
